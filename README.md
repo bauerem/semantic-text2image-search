@@ -1,4 +1,4 @@
-# image-content-search
+# Semanti Text2Image Search
 This repo implements a simple terminal-based semantic image search.
 
 ## Usage

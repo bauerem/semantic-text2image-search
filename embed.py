@@ -4,7 +4,7 @@ from PIL import Image
 import torch
 from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize
 from tqdm import tqdm
-from transformers import CLIPProcessor, CLIPModel
+from transformers import CLIPProcessor, CLIPModel # CLIPTokenizer, CLIPTokenizerFast
 
 
 # Install necessary packages
@@ -18,8 +18,8 @@ class ImageEmbedder(EmbeddingFunction):
         print(f"Using device: {self.device}")
 
         # Load model and processor
-        self.model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(self.device)
         self.processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+        self.model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(self.device)
 
         # Define image transformations
         self.transform = Compose([
@@ -56,3 +56,26 @@ class ImageEmbedder(EmbeddingFunction):
                 )
             
         return embeddings
+    
+class LanguageEmbedder:
+    def __init__(self):
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        print(f"Using device: {self.device}")
+
+        # Load model and processor
+        self.model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(self.device)
+        self.processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+        # Consider: CLIPTokenizerFast
+
+    def __call__(self, texts):
+        inputs = self.processor(texts, return_tensors="pt", padding=True) # truncation=True
+        inputs = inputs.to(self.device)
+
+        with torch.no_grad():
+            outputs = self.model.get_text_features(**inputs)
+
+        return outputs \
+                .cpu() \
+                .numpy() \
+                [0] \
+                .tolist()

@@ -38,8 +38,10 @@ class ImageEmbedder(EmbeddingFunction):
             iterator = image_filenames
 
         for image_path in iterator:
-            # Open and process image
-            image = self.transform(Image.open(image_path)).unsqueeze(0)
+            # Open image as RGB
+            image = Image.open(image_path).convert('RGB')
+            # Process image
+            image = self.transform(image).unsqueeze(0)
             
             # Move image to device
             image = image.to(self.device)

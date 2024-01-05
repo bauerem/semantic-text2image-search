@@ -1,28 +1,33 @@
 # Semantic Text2Image Search
-This repo implements a simple terminal-based semantic image search.
+This code let's you search your images in a descriptive manner.
+
+![Researcher](frontend/public/researcher.png)
 
 ## Usage
-### Setup
+### 1. Installation
+In a location where you want to place this repo, use the following commands:
+
     git clone git@github.com:bauerem/semantic-text2image-search.git
     cd semantic-text2image-search
-    python3 -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
+    source setup.sh
 
-### Initialize DB
-Make your data folders. They are excluded from this repo/
 
-    mkdir data
-    mkdir images
+### 2. Add Your Own Data
 
-Place all your images into the images folder and add their embeddings to the database:
+i. Place your images into the backend/images directory.
 
-    python vectorize.py
+ii. Make them searchable with the following script:
 
-## Use
-Now you can search your images by using the following command:
+    source vectorize.sh
 
-    python main.py
+### 3. Search
+You can now run the software using the command:
+
+    source run_backend.sh
+
+And in another terminal, using the command:
+
+    source run_frontend.sh
 
 ## Modifications depending on use-case
 - Set the standard embedding function to CLIPProcessor so that Chroma embeds directly

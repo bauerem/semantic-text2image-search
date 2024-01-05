@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import logo from '/wheelwish.jpeg'
+import logo from '/researcher.png'
 import './App.css'
 import { Results } from '../components/Results'
 import Header from '../components/Header';
@@ -57,7 +57,7 @@ function App() {
         <a target="_blank">
           <img src={logo} className="logo" alt="Vite logo" />
         </a>
-        <h1>WheelWish</h1>
+        <h1>Multi-Modal Search</h1>
       </div>
 
       <div style={{

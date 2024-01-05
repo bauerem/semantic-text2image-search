@@ -6,7 +6,7 @@ This repo implements a simple terminal-based semantic image search.
     git clone git@github.com:bauerem/semantic-text2image-search.git
     cd semantic-text2image-search
     python3 -m venv venv
-    source venv/bin/activate 
+    source venv/bin/activate
     pip install -r requirements.txt
 
 ### Initialize DB

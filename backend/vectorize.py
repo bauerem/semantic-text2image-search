@@ -8,7 +8,8 @@ chroma_client = chromadb.PersistentClient(path="./data") #(host='localhost', por
 
 # Get image paths
 image_folder = "./images"
-image_files = list(Path(image_folder).glob("*.jpeg"))  # adapt this if you have different image formats
+image_files = list(Path(image_folder).rglob('*'))
+image_files = [file for file in image_files if file.suffix in {'.jpeg', '.jpg', '.png'}]  # adapt this if you have different image formats
 
 # Embedder
 embedder = ImageEmbedder()

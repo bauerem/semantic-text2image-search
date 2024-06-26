@@ -4,25 +4,30 @@ import chromadb
 
 # https://docs.trychroma.com/getting-started
 
-chroma_client = chromadb.PersistentClient(path="./data") #(host='localhost', port=50051)
+chroma_client = chromadb.PersistentClient(
+    path="./data")  # (host='localhost', port=50051)
 
 # Get image paths
 image_folder = "./images"
-image_files = list(Path(image_folder).rglob('*'))
-image_files = [file for file in image_files if file.suffix in {'.jpeg', '.jpg', '.png'}]  # adapt this if you have different image formats
+extensions = ["*.jpeg", "*.jpg"]
+image_files = []
+for ext in extensions:
+    image_files.extend(
+        list(Path(image_folder).rglob(ext))
+    )  # adapt this if you have different image formats
 
 # Embedder
 embedder = ImageEmbedder()
 
-collection = chroma_client.get_or_create_collection(name="image_collection") # (dimension=512, metric='Cosine')
+collection = chroma_client.get_or_create_collection(
+    name="image_collection")  # (dimension=512, metric='Cosine')
 
 # Add vectors to the collection
 for i, image_file in enumerate(image_files):
-    
+
     embedding = embedder([
         image_file
     ])
-
 
     collection.upsert(
         embeddings=embedding,
